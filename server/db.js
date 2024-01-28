@@ -3,10 +3,7 @@ const mongoose = require('mongoose');
 //connexion à notre base de données MongoDB
 const connectDB = async () =>{
    try {
-     await mongoose.connect(process.env.MONGO_URI,{
-        useNewUrlParser: true,
-        useUnifiedTopology:true
-    })
+     await mongoose.connect(process.env.MONGO_URI)
     console.log('connected to mongoDB Atlas')
    } catch (error) {
     console.error('Error connecting to MongoDB',error);

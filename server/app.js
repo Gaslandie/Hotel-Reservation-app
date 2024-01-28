@@ -1,4 +1,5 @@
 const express = require('express');
+require('dotenv').config();
 const mongoose = require('mongoose');
 const roomRoutes = require('./routes/room');
 const errorHandler = require('./errors/errorhandler');
@@ -19,10 +20,10 @@ app.use(limiter);
 //nos routes
 app.use('/api/rooms',roomRoutes);
 
-const port = process.env.PORT || 4000
+const port = 4000
 const start = async () => {
     try {
-        await connectDB//attendre la connexion à la base de données
+        await connectDB()//attendre la connexion à la base de données
         app.listen(port,() => console.log(`server is listening on port ${port}`))
     } catch (error) {
         console.log(error);

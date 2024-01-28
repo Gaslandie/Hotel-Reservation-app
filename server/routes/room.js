@@ -1,3 +1,6 @@
+//Requête HTTP -> Route -> Middleware(s) -> Contrôleur -> Base de Données (si nécessaire) -> Contrôleur -> Réponse HTTP
+
+
 const express = require('express');
 
 //Joi est une bibliotheque qui nous permet de s'assurer que les données entrantes respectent un format attendu,sont sures et fiables
@@ -9,8 +12,9 @@ const { getRooms, createRoom, updateRoom, deleteRoom } = require('../controllers
 const roomSchema = Joi.object({
     name: Joi.string().required(),
     price: Joi.number().positive().required(),
-    size: Joi.string().required(),
-    booked: Joi.boolean().required()
+    booked: Joi.boolean().required(),
+    size: Joi.string().required()
+    
 })
 
 
