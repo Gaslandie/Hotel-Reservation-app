@@ -8,7 +8,7 @@ const Joi = require('joi')
 const router = express.Router();
 const { getRooms, createRoom, updateRoom, deleteRoom } = require('../controllers/roomController');
 
-//Schema joi pour la validation des données entrantes
+//Schema joi pour la validation du format des données entrantes
 const roomSchema = Joi.object({
     name: Joi.string().required(),
     price: Joi.number().positive().required(),
@@ -21,7 +21,7 @@ const roomSchema = Joi.object({
 //Middleware pour valider les données de la chambre
 const validateRoom = (req,res,next) => {
     //destructuration car la methode validate nous renvoie un objet qui contient deux propriétes principales:error et  value
-    //on recupere value et on affiche les details
+    //on recupere error et on affiche les details
     const { error } = roomSchema.validate(req.body);
     if(error) {
         return res.status(400).send(error.details);
