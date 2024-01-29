@@ -33,7 +33,7 @@ const protect = async (req,res,next) => {
         res.status(401).json({message:'Not authorized ,no token'})
     }
 }
-//autorisation
+//authorization,client ou admin?
 const authorize = (...roles) => {
     return (req, res, next) => {
         if (!roles.includes(req.user.role)) {

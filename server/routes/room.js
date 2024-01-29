@@ -1,3 +1,10 @@
+/**
+ * @swagger
+ * tags:
+ *   name: Rooms
+ *   description: API endpoints for managing rooms
+ */
+
 //Requête HTTP -> Route -> Middleware(s) -> Contrôleur -> Base de Données (si nécessaire) -> Contrôleur -> Réponse HTTP
 
 
@@ -29,10 +36,126 @@ const validateRoom = (req,res,next) => {
     next();
 }
 
-
+/**
+ * @swagger
+ * path:
+ *   /api/rooms:
+ *   get:
+ *     summary: Get all rooms
+ *     tags: [Rooms]
+ *     responses:
+ *       '200':
+ *         description: Successfully retrieved rooms
+ *       '500':
+ *         description: Internal server error.
+ */
 router.get('/', getRooms);
-router.post('/',validateRoom, createRoom);
-router.put('/:id',validateRoom, updateRoom);
+/**
+ * @swagger
+ * path:
+ *   /api/rooms:
+ *   post:
+ *     summary: Create a new room
+ *     tags: [Rooms]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               price:
+ *                 type: number
+ *               booked:
+ *                 type: boolean
+ *               size:
+ *                 type: string
+ *             required:
+ *               - name
+ *               - price
+ *               - booked
+ *               - size
+ *     responses:
+ *       '201':
+ *         description: A new room has been created
+ *       '400':
+ *         description: Bad request. Validation error or missing required fields.
+ *       '500':
+ *         description: Internal server error.
+ */
+router.post('/', validateRoom, createRoom);
+
+/**
+ * @swagger
+ * path:
+ *   /api/rooms/{id}:
+ *   put:
+ *     summary: Update a room by ID
+ *     tags: [Rooms]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID of the room to update
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               price:
+ *                 type: number
+ *               booked:
+ *                 type: boolean
+ *               size:
+ *                 type: string
+ *             required:
+ *               - name
+ *               - price
+ *               - booked
+ *               - size
+ *     responses:
+ *       '200':
+ *         description: Room updated successfully
+ *       '400':
+ *         description: Bad request. Validation error or missing required fields.
+ *       '404':
+ *         description: Room not found.
+ *       '500':
+ *         description: Internal server error.
+ */
+router.put('/:id', validateRoom, updateRoom);
+
+
+/**
+ * @swagger
+ * path:
+ *   /api/rooms/{id}:
+ *   delete:
+ *     summary: Delete a room by ID
+ *     tags: [Rooms]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID of the room to delete
+ *         schema:
+ *           type: string
+ *     responses:
+ *       '200':
+ *         description: Room deleted successfully
+ *       '404':
+ *         description: Room not found.
+ *       '500':
+ *         description: Internal server error.
+ */
 router.delete('/:id', deleteRoom);
 
 module.exports = router;

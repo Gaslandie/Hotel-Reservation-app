@@ -28,7 +28,7 @@ exports.updateRoom = async(req,res) => {
     const { id } = req.params;
     //verifier si l'ID est un ObjectID mongoDB valide avant d'envoyer
     if(!mongoose.Types.ObjectId.isValid(id)){
-        return res.status(400).json({message:'Invalid room ID'})
+        return res.status(400).json({message:'Invalid room ID in update request'})
     }
     try {
         //mettre à jour la chambre avec l'id fournit si elle existe

@@ -1,3 +1,9 @@
+/**
+ * @swagger
+ * tags:
+ *   name: Reservations
+ *   description: API endpoints for managing reservations
+ */
 const express = require('express');
 const Joi = require('joi');
 const { protect, authorize } = require('../middleware/authMiddleware');
@@ -39,8 +45,141 @@ const validateReservationUpdate = (req, res, next) => {
 
 const router = express.Router();
 
-router.route('/').post(protect,validateReservationCreate, createReservation);
+/**
+ * @swagger
+ * path:
+ *   /api/reservations/user:
+ *     get:
+ *       summary: Get reservations for the authenticated user
+ *       tags: [Reservations]
+ *       security:
+ *         - BearerAuth: []
+ *       responses:
+ *         '200':
+ *           description: Successfully retrieved reservations for the authenticated user
+ *         '401':
+ *           description: Unauthorized. User not authenticated.
+ *         '500':
+ *           description: Internal server error.
+ */
 router.route('/user').get(protect, getUserReservations);
-router.route('/:id').put(protect,validateReservationUpdate, updateReservation).delete(protect, authorize('admin'), cancelReservation);//que l'admin qui peut supprimer les reservations
+
+/**
+ * @swagger
+ * path:
+ *   /api/reservations:
+ *     post:
+ *       summary: Create a new reservation
+ *       tags: [Reservations]
+ *       security:
+ *         - BearerAuth: []
+ *       requestBody:
+ *         required: true
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 room:
+ *                   type: string
+ *                 user:
+ *                   type: string
+ *                 startDate:
+ *                   type: string
+ *                   format: date
+ *                 endDate:
+ *                   type: string
+ *                   format: date
+ *               required:
+ *                 - room
+ *                 - user
+ *                 - startDate
+ *                 - endDate
+ *       responses:
+ *         '201':
+ *           description: A new reservation has been created
+ *         '400':
+ *           description: Bad request. Validation error or missing required fields.
+ *         '401':
+ *           description: Unauthorized. User not authenticated.
+ *         '500':
+ *           description: Internal server error.
+ */
+router.route('/').post(protect, validateReservationCreate, createReservation);
+
+/**
+ * @swagger
+ * path:
+ *   /api/reservations/{id}:
+ *     put:
+ *       summary: Update a reservation by ID
+ *       tags: [Reservations]
+ *       security:
+ *         - BearerAuth: []
+ *       parameters:
+ *         - in: path
+ *           name: id
+ *           required: true
+ *           description: ID of the reservation to update
+ *           schema:
+ *             type: string
+ *       requestBody:
+ *         required: true
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 startDate:
+ *                   type: string
+ *                   format: date
+ *                 endDate:
+ *                   type: string
+ *                   format: date
+ *                 room:
+ *                   type: string
+ *               required:
+ *                 - startDate
+ *       responses:
+ *         '200':
+ *           description: Reservation updated successfully
+ *         '400':
+ *           description: Bad request. Validation error or missing required fields.
+ *         '401':
+ *           description: Unauthorized. User not authenticated.
+ *         '404':
+ *           description: Reservation not found.
+ *         '500':
+ *           description: Internal server error.
+ */
+router.route('/:id').put(protect, validateReservationUpdate, updateReservation);
+
+/**
+ * @swagger
+ * path:
+ *   /api/reservations/{id}:
+ *     delete:
+ *       summary: Cancel a reservation by ID (admin only)
+ *       tags: [Reservations]
+ *       security:
+ *         - BearerAuth: []
+ *       parameters:
+ *         - in: path
+ *           name: id
+ *           required: true
+ *           description: ID of the reservation to cancel
+ *           schema:
+ *             type: string
+ *       responses:
+ *         '200':
+ *           description: Reservation canceled successfully
+ *         '401':
+ *           description: Unauthorized. User not authenticated as an admin.
+ *         '404':
+ *           description: Reservation not found.
+ *         '500':
+ *           description: Internal server error.
+ */
+router.route('/:id').delete(protect, authorize('admin'), cancelReservation);
 
 module.exports = router;
