@@ -6,7 +6,6 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 
 const protect = async (req,res,next) => {
-    console.log('le debut')
     let token;
     //l'en-tete authorization est souvent utilisé pour transmettre des tokens d'authentification
     //dans les systemes d'authentification basés sur les tokens, comme ceux utilisant jwt,il est 
@@ -20,7 +19,6 @@ const protect = async (req,res,next) => {
             
             //on ajoute à notre objet requete,de recuperer le user à l'aide son id mais sans le mot de passe
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
-            console.log('jusque là tout est bon')
 
             req.user = await User.findById(decoded.id).select('-password');
             
@@ -35,5 +33,14 @@ const protect = async (req,res,next) => {
         res.status(401).json({message:'Not authorized ,no token'})
     }
 }
+//autorisation
+const authorize = (...roles) => {
+    return (req, res, next) => {
+        if (!roles.includes(req.user.role)) {
+            return res.status(403).json({ message: `User role ${req.user.role} is not authorized to access this route` });
+        }
+        next();
+    };
+};
 
-module.exports = protect;
+module.exports = {protect, authorize };
