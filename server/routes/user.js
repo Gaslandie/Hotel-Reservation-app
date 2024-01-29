@@ -2,7 +2,8 @@ const express = require('express');
 const Joi = require('joi');
 const router = express.Router();
 const userController = require('../controllers/userController');
-const { protect } = require('../middlewares/authMiddleware')
+const protect  = require('../middlewares/authMiddleware')
+
 
 //schema joi pour l'inscription
 const signupSchema = Joi.object({

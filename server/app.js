@@ -2,6 +2,7 @@ const express = require('express');
 require('dotenv').config();
 const mongoose = require('mongoose');
 const roomRoutes = require('./routes/room');
+const userRoutes = require('./routes/user')
 const errorHandler = require('./errors/errorhandler');
 const helmet = require('helmet');
 const cors = require('cors');
@@ -19,6 +20,7 @@ app.use(cors());
 app.use(limiter);
 //nos routes
 app.use('/api/rooms',roomRoutes);
+app.use('/api/users', userRoutes);
 
 const port = 4000
 const start = async () => {
