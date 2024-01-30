@@ -7,7 +7,6 @@ const User = require('../models/user');
 
 const protect = async (req,res,next) => {
     let token;
-    console.log('bonjour')
     //l'en-tete authorization est souvent utilisé pour transmettre des tokens d'authentification
     //dans les systemes d'authentification basés sur les tokens, comme ceux utilisant jwt,il est 
     //courant de prefixer le token avec le mot Bearer suivi d'un espace

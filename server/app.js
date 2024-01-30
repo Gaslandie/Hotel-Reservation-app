@@ -20,6 +20,7 @@ app.use(morgan('tiny'))
     //securité
 //helmet ajoute plusieurs en-tetes http pour securiser notre application
 app.use(helmet());
+
 //permet ou restreint les ressources demandées sur un serveur web en fonction de l'origine de la requete
 app.use(cors());
 app.use(limiter);
