@@ -6,7 +6,7 @@
  */
 const express = require('express');
 const Joi = require('joi');
-const { protect, authorize } = require('../middleware/authMiddleware');
+const { protect, authorize } = require('../middlewares/authMiddleware');
 const { getUserReservations, createReservation, updateReservation, cancelReservation } = require('../controllers/reservationController');
 
 //valider le format des données entrante pour la creation de reservation
@@ -153,6 +153,7 @@ router.route('/').post(protect, validateReservationCreate, createReservation);
  *           description: Internal server error.
  */
 router.route('/:id').put(protect, validateReservationUpdate, updateReservation);
+//pour le moment on retire protect
 
 /**
  * @swagger
@@ -180,6 +181,6 @@ router.route('/:id').put(protect, validateReservationUpdate, updateReservation);
  *         '500':
  *           description: Internal server error.
  */
-router.route('/:id').delete(protect, authorize('admin'), cancelReservation);
+router.route('/:id').delete(protect,authorize('admin'), cancelReservation);
 
 module.exports = router;

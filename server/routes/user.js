@@ -2,7 +2,7 @@ const express = require('express');
 const Joi = require('joi');
 const router = express.Router();
 const userController = require('../controllers/userController');
-const protect  = require('../middlewares/authMiddleware')
+const {protect}  = require('../middlewares/authMiddleware')
 
 
 
@@ -161,7 +161,7 @@ router.post('/login',validateLogin,userController.userLogin);
  *         '401':
  *           description: Unauthorized. User not authenticated.
  */
-router.put('/update',validateUpdate,protect,userController.updateUserProfile);
+router.put('/update',protect,validateUpdate,userController.updateUserProfile);
 
 module.exports = router;
 
