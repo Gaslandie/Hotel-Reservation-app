@@ -1,13 +1,10 @@
 const mongoose = require('mongoose')
-const validator = require('validator') //qu'on va utiliser pour notre adresse email, 
-//pour etre sur qu'on a bien à faire à une address mail
+const validator = require('validator') 
 
 //bcrypt est une bibliotheque de cryptage de mots de passe utilisée pour securiséer les informtaions
 //d'identification des utilisateur.elle transforme les mots de passe en texte clair en version hachées 
 //et salées.la salaison: ajoute des données aleatoires uniques à chaque mot de passe
 //hachage:processus à sens unique qui empeche de retrouver le mot de passe original.
-const bcrypt = require('bcryptjs')
-//schema pour user
 
 //notre schema pour user
 const userSchema = new mongoose.Schema({
@@ -18,7 +15,7 @@ const userSchema = new mongoose.Schema({
     email:{
         type:String,
         required:true,
-        unique:true,//pour ne pas avoir deux comptes avoir la meme adresse mail
+        unique:true,//pour ne pas avoir deux comptes avec la meme adresse mail
         validate:[validator.isEmail,'Please provide a valid email']//si l'adress email n'est pas valide message à afficher
     },
     password:{

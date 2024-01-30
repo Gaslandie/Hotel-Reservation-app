@@ -3,12 +3,12 @@ const morgan = require('morgan');
 require('dotenv').config();
 const mongoose = require('mongoose');
 const roomRoutes = require('./routes/room');
-const userRoutes = require('./routes/user')
-const reservationRoutes = require('./routes/reservation')
+const userRoutes = require('./routes/user');
+const reservationRoutes = require('./routes/reservation');
 const errorHandler = require('./errors/errorhandler');
 const helmet = require('helmet');
 const cors = require('cors');
-const limiter = require('./securité/rateLimit')
+const limiter = require('./securité/rateLimit');
 
 const app = express();
 const connectDB = require('./db');
@@ -16,7 +16,7 @@ const connectDB = require('./db');
 //nos middllewares
 app.use(express.json());
 app.use(errorHandler);
-app.use(morgan('tiny'))
+app.use(morgan('tiny'));
     //securité
 //helmet ajoute plusieurs en-tetes http pour securiser notre application
 app.use(helmet());
